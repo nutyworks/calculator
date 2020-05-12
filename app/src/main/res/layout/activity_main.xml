@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity"
+	android:orientation="vertical">
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+	<TextView
+		android:layout_gravity="center|center_vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/result_num"
+		android:text="0"
+		android:textStyle="bold"
+		android:textAlignment="center"
+		android:textSize="32sp"
+		android:textColor="#000000" />
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="number"
+		android:id="@+id/first_num"
+		android:hint="숫자를 입력해주세요."/>
+
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="number"
+		android:id="@+id/second_num"
+		android:hint="숫자를 입력해주세요."/>
+
+	<LinearLayout
+		android:id="@+id/btn_footer"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:text="+"
+			android:id="@+id/btn_add"
+			android:backgroundTint="#ff0000" />
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:text="-"
+			android:id="@+id/btn_sub"
+			android:backgroundTint="#ffff00" />
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:text="*"
+			android:id="@+id/btn_mul"
+			android:backgroundTint="#00ff00" />
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:text="/"
+			android:id="@+id/btn_div"
+			android:backgroundTint="#0077ff" />
+	</LinearLayout>
+
+</LinearLayout>
