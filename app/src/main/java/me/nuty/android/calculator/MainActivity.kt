@@ -2,10 +2,10 @@ package me.nuty.android.calculator
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.math.BigInteger
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,34 +13,52 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_add.setOnClickListener {
-            result_num.text = calculate(first_num, second_num, Operation.ADD).toString()
+        val calculator = Calculator()
+
+        val buttonOperationMap = HashMap<Button, Calculator.Operation>().apply {
+            put(btn_add, Calculator.Operation.ADD)
+            put(btn_sub, Calculator.Operation.SUBTRACT)
+            put(btn_mul, Calculator.Operation.MULTIPLY)
+            put(btn_div, Calculator.Operation.DIVIDE)
         }
-        btn_sub.setOnClickListener {
-            result_num.text = calculate(first_num, second_num, Operation.SUBTRACT).toString()
-        }
-        btn_mul.setOnClickListener {
-            result_num.text = calculate(first_num, second_num, Operation.MULTIPLY).toString()
-        }
-        btn_mul.setOnClickListener {
-            result_num.text = calculate(first_num, second_num, Operation.DIVIDE).toString()
+
+        for (buttonOperation in buttonOperationMap) {
+            buttonOperation.key.setOnClickListener {
+                val isNumberFieldValid = first_num.text.toString().toBigIntegerOrNull() != null
+                        && second_num.text.toString().toBigIntegerOrNull() != null
+
+                if (isNumberFieldValid) {
+                    result_num.text = Calculator().apply {
+                        operand1 = first_num.text.toString().toBigInteger()
+                        operand2 = second_num.text.toString().toBigInteger()
+                        operator = buttonOperation.value
+                    }.run().toString()
+                } else {
+                    Toast.makeText(this, "숫자를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
+}
 
-    private fun calculate(a: EditText, b: EditText, operation: Operation): Any? {
-        val first = a.text.toString().toIntOrNull() ?: return "올바른 숫자를 입력해주세요."
-        val second = b.text.toString().toIntOrNull() ?: return "올바른 숫자를 입력해주세요."
+class Calculator() {
 
-        return operation.evaluate(first, second)
+    var operator = Operation.ADD
+    var operand1: BigInteger = BigInteger.ZERO
+    var operand2: BigInteger = BigInteger.ZERO
+
+    fun run(): Any {
+        return if (operand1 != null && operand2 != null) operator.calculate(operand1, operand2)
+        else "N/A"
     }
 
-    enum class Operation(val evaluate: (a: Int, b: Int) -> Any) {
-        ADD({ a, b -> a + b }),
-        SUBTRACT({ a, b -> a - b }),
-        MULTIPLY({ a, b -> a * b }),
-        DIVIDE({ a, b ->
-            if (b == 0) "0으로 나누기"
-            else a.toDouble() / b
+    enum class Operation(val display: String, val calculate: (a: BigInteger, b: BigInteger) -> Any) {
+        ADD("%s + %s", { a, b -> a + b }),
+        SUBTRACT("%s - %s", { a, b -> a - b }),
+        MULTIPLY("%s × %s", { a, b -> a * b }),
+        DIVIDE("%s / %s", { a, b ->
+            if (b.compareTo(java.math.BigInteger.ZERO) != 0) a.toBigDecimal() / b.toBigDecimal()
+            else "DIV/0"
         })
     }
 }
