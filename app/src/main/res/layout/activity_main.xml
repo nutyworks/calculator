@@ -12,7 +12,16 @@
 		android:layout_height="0dp"
 		android:layout_weight="1" />
 	<TextView
-		android:layout_gravity="center|center_vertical"
+		android:layout_gravity="center"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/expression"
+		android:text=""
+		android:textSize="16sp"
+		android:textAlignment="center"
+		android:textColor="#888" />
+	<TextView
+		android:layout_gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:id="@+id/result_num"
